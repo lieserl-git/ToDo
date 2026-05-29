@@ -12,12 +12,50 @@ class Task(ft.Column):
 
     def init(self):
         self.completed = False
-        self.display_task = ft.Checkbox(value=False, label=self.task_name, on_change=self.status_changed)
+        self.display_task = ft.Checkbox(
+            value=False,
+            label=self.task_name,
+            on_change=self.status_changed
+        )
         self.edit_name = ft.TextField(expand=1)
 
-        self.display_view = ft.Row(alignment=ft.MainAxisAlignment.SPACE_BETWEEN, vertical_alignment=ft.CrossAxisAlignment.CENTER, controls=[ self.display_task, ft.Row(spacing=0, controls=[ ft.IconButton(icon=ft.Icons.CREATE_OUTLINED, tooltip="Edit To-Do", on_click=self.edit_clicked,), ft.IconButton(ft.Icons.DELETE_OUTLINE, tooltip="Delete To-Do", on_click=self.delete_clicked,),],),],)
+        self.display_view = ft.Row(
+            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+            vertical_alignment=ft.CrossAxisAlignment.CENTER,
+            controls=[
+                self.display_task,
+                ft.Row(
+                    spacing=0,
+                    controls=[
+                        ft.IconButton(
+                            icon=ft.Icons.CREATE_OUTLINED,
+                            tooltip="Edit To-Do",
+                            on_click=self.edit_clicked
+                        ),
+                        ft.IconButton(
+                            ft.Icons.DELETE_OUTLINE,
+                            tooltip="Delete To-Do",
+                            on_click=self.delete_clicked
+                        ),
+                    ]
+                ),
+            ]
+        )
 
-        self.edit_view = ft.Row(visible=False, alignment=ft.MainAxisAlignment.SPACE_BETWEEN, vertical_alignment=ft.CrossAxisAlignment.CENTER, controls=[self.edit_name,ft.IconButton(icon=ft.Icons.DONE_OUTLINE_OUTLINED,icon_color=ft.Colors.WHITE, tooltip="Update To-Do", on_click=self.save_clicked,),],)
+        self.edit_view = ft.Row(
+            visible=False,
+            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+            vertical_alignment=ft.CrossAxisAlignment.CENTER,
+            controls=[
+                self.edit_name,
+                ft.IconButton(
+                    icon=ft.Icons.DONE_OUTLINE_OUTLINED,
+                    icon_color=ft.Colors.WHITE,
+                    tooltip="Update To-Do",
+                    on_click=self.save_clicked
+                ),
+            ]
+        )
         self.controls = [self.display_view, self.edit_view]
 
     def edit_clicked(self, e):
@@ -43,15 +81,50 @@ class Task(ft.Column):
 @ft.control
 class TodoApp(ft.Column):
     def init(self):
-        self.new_task = ft.TextField(hint_text="What do you want to do today?", expand=True)
+        self.new_task = ft.TextField(
+            hint_text="What do you want to do today?",
+            expand=True
+        )
         self.width = 600
         self.tasks = ft.Column()
-        self.filter = ft.TabBar(scrollable=False, tabs=[ft.Tab(label="all"), ft.Tab(label="active"), ft.Tab(label="completed"),],)
-        self.filter_tabs = ft.Tabs(length=3, selected_index=0, on_change=lambda e: self.update(), content=self.filter,)
-        self.controls = [ft.Row(controls=[self.new_task, ft.FloatingActionButton(icon=ft.Icons.ADD, on_click=self.add_clicked, foreground_color=ft.Colors.BLACK,bgcolor=ft.Colors.WHITE),],), ft.Column(spacing=25, controls=[self.filter_tabs, self.tasks,],),]
+        self.filter = ft.TabBar(
+            scrollable=False,
+            tabs=[
+                ft.Tab(label="all"),
+                ft.Tab(label="active"),
+                ft.Tab(label="completed"),
+            ]
+        )
+        self.filter_tabs = ft.Tabs(
+            length=3,
+            selected_index=0,
+            on_change=lambda e: self.update(),
+            content=self.filter
+        )
+        self.controls = [
+            ft.Row(
+                controls=[
+                    self.new_task,
+                    ft.FloatingActionButton(
+                        icon=ft.Icons.ADD,
+                        on_click=self.add_clicked,
+                        foreground_color=ft.Colors.BLACK,
+                        bgcolor=ft.Colors.WHITE
+                    ),
+                ]
+            ),
+            ft.Column(
+                spacing=25,
+                controls=[self.filter_tabs, self.tasks]
+            ),
+        ]
 
     def add_clicked(self, e):
-        task = Task(task_name=self.new_task.value, on_status_change=self.task_status_change, on_delete=self.task_delete,)
+        task = Task(
+            task_name=self.new_task.value,
+            on_status_change=self.task_status_change,
+            on_delete=self.task_delete
+        )
         self.tasks.controls.append(task)
         self.new_task.value = ""
         self.update()
@@ -90,4 +163,4 @@ def main(page: ft.Page):
     page.add(todo)
 
 
-ft.run(main)   
+ft.run(main)
