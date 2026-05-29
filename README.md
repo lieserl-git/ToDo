@@ -9,11 +9,7 @@ from [this](https://flet.dev/docs/tutorials/todo) tutorial.
 ## Prerequisites
 
 - Python **3.10** or higher
-- Required packages:
-
-```bash
-pip install flet pyinstaller
-```
+  
 ## Compile to executable (.exe)
 - Install PyInstaller (if not already)
 
